@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Player</title>
+    <style>
+        /* Centering container */
+        .center-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Optional: Add some styling to the centered div */
+        .centered-div {
+            width: 200px;
+            height: 200px;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="center-container">
+        <div class="centered-div">
+            <h1 style="color: antiquewhite;">Audio Player</h1>
+
+            <audio id="iframe-audio" controls>
+                <source src="./sample-12s.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <script>
+                // Function to handle messages received from the parent window
+                function receiveMessage(event) {
+                    if (event.origin !== window.location.origin) {
+                        return; // Ignore messages from other origins
+                    }
+
+                    const message = event.data;
+                    if (event.data === 'mute') {
+                        let audio = document.getElementById("iframe-audio");
+                        if (audio) {
+                            audio.load();
+                        }
+                    }
+                }
+
+                // Add an event listener to listen for messages
+                window.addEventListener("message", receiveMessage);
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>
